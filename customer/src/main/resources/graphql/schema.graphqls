@@ -1,0 +1,22 @@
+type Query {
+    findAllCustomers: [CustomerResponse!]!
+    findCustomerById(customerId: ID!): CustomerResponse
+    customerExistsById(customerId: ID!): Boolean!
+}
+
+type Mutation {
+    createCustomer(request: CustomerRequest!): String!
+    updateCustomer(request: CustomerRequest!): Boolean!
+    deleteCustomer(customerId: ID!): Boolean!
+}
+
+input CustomerRequest {
+    name: String!
+    email: String!
+}
+
+type CustomerResponse {
+    id: ID!
+    name: String!
+    email: String!
+}

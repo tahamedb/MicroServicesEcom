@@ -2,23 +2,16 @@ package com.taha.ecommerce.payment;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
-@RestController
-@RequestMapping("/api/v1/payments")
+@Component
 @RequiredArgsConstructor
 public class PaymentController {
 
-  private final PaymentService service;
+  private final PaymentService paymentService;
 
-  @PostMapping
-  public ResponseEntity<Integer> createPayment(
-      @RequestBody @Valid PaymentRequest request
-  ) {
-    return ResponseEntity.ok(this.service.createPayment(request));
+  @GraphQLMutation(name = "createPayment")
+  public Integer createPayment(@GraphQLArgument(name = "request") @Valid PaymentRequest request) {
+    return paymentService.createPayment(request);
   }
 }

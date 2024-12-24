@@ -1,45 +1,33 @@
-# --- Queries ---
-type Query {
-    orders: [OrderResponse!]!
-    order(orderId: Int!): OrderResponse
-}
-
-# --- Mutations ---
 type Mutation {
-    createOrder(input: OrderRequestInput!): OrderResponse!
+    createProduct(request: ProductRequestInput!): Int!
+    purchaseProducts(request: [ProductPurchaseRequestInput!]!): [ProductPurchaseResponse!]!
 }
 
-# --- Types ---
-type OrderResponse {
-    id: Int
-    reference: String
-    amount: Float
-    paymentMethod: PaymentMethod
-    customerId: String
+type Query {
+    findProductById(productId: Int!): ProductResponse
+    findAllProducts: [ProductResponse!]!
 }
 
-enum PaymentMethod {
-    CASH
-    VISA
-    # ... add any other payment methods ...
+input ProductRequestInput {
+    name: String!
+    price: Float!
+    description: String
 }
 
-# If your OrderResponse doesn't include product details,
-# you might not expose them. But if you do:
-# products: [PurchaseResponse!]?
-
-# --- Inputs ---
-input OrderRequestInput {
-    id: Int
-    reference: String
-    amount: Float
-    paymentMethod: PaymentMethod!
-    customerId: String!
-    products: [PurchaseRequestInput!]!
+input ProductPurchaseRequestInput {
+    productId: Int!
+    quantity: Int!
 }
 
-input PurchaseRequestInput {
-    productId: String
-    quantity: Int
-    price: Float
+type ProductPurchaseResponse {
+    productId: Int!
+    quantity: Int!
+    status: String!
+}
+
+type ProductResponse {
+    productId: Int!
+    name: String!
+    price: Float!
+    description: String
 }
