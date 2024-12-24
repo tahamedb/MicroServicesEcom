@@ -1,0 +1,45 @@
+# --- Queries ---
+type Query {
+    orders: [OrderResponse!]!
+    order(orderId: Int!): OrderResponse
+}
+
+# --- Mutations ---
+type Mutation {
+    createOrder(input: OrderRequestInput!): OrderResponse!
+}
+
+# --- Types ---
+type OrderResponse {
+    id: Int
+    reference: String
+    amount: Float
+    paymentMethod: PaymentMethod
+    customerId: String
+}
+
+enum PaymentMethod {
+    CASH
+    VISA
+    # ... add any other payment methods ...
+}
+
+# If your OrderResponse doesn't include product details,
+# you might not expose them. But if you do:
+# products: [PurchaseResponse!]?
+
+# --- Inputs ---
+input OrderRequestInput {
+    id: Int
+    reference: String
+    amount: Float
+    paymentMethod: PaymentMethod!
+    customerId: String!
+    products: [PurchaseRequestInput!]!
+}
+
+input PurchaseRequestInput {
+    productId: String
+    quantity: Int
+    price: Float
+}
